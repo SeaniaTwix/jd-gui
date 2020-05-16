@@ -1,4 +1,5 @@
 apply plugin: 'java'
+apply plugin: 'kotlin'
 
 dependencies {
     compile 'com.fifesoft:rsyntaxtextarea:3.0.4'
@@ -6,6 +7,7 @@ dependencies {
     compile 'org.jd:jd-core:' + parent.jdCoreVersion
     compile project(':api')
     testCompile 'junit:junit:4.12'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
 
 version = parent.version
@@ -65,3 +67,25 @@ eclipse.classpath.file.withXml { xml ->
     node.appendNode( 'classpathentry', [ kind: 'src', path: antlr4.destinationDir])
 }
 eclipseClasspath.dependsOn antlr4GenerateGrammarSource
+buildscript {
+    ext.kotlin_version = '1.3.72'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+repositories {
+    mavenCentral()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
